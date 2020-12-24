@@ -1,0 +1,40 @@
+<?php
+// $Id$
+/**
+ *  Implement hook_theme_registry_alter.
+ */
+function taxonomy_page_override_theme_registry_alter(&$theme_registry) {
+  // Override the standard theme_taxonomy_term_page function callback.
+  $theme_registry['taxonomy_term_page']['function'] = 'taxonomy_page_override_taxonomy_term_page';
+}
+
+/**
+ *   This is our custom override for theme_taxonomy_term_page.
+ *  It will add an image to the top of our taxonomy term node
+ *  listing pages. Note that we're not calling it a theme_ function,
+ *  to avoid confusion in the future, as this is defined with
+ *  a theme registry alteration, rather than as a standard theme
+ *  function.
+ */
+function taxonomy_page_override_taxonomy_term_page($tids, $result) {
+  drupal_add_css(drupal_get_path('module', 'taxonomy') .'/taxonomy.css');
+  $output = '';
+  // Only display the description if we have a single term, to avoid clutter and confusion.
+  if (count($tids) == 1) {
+    $term = taxonomy_get_term($tids[0]);
+    $description = $term->description;
+
+    // Here is our new line. It will display the image, if available.
+    $output .= taxonomy_image_display($term->tid);
+
+    // Check that a description is set.
+    if (!empty($description)) {
+      $output .= '<div class="taxonomy-term-description">';
+      $output .= filter_xss_admin($description);
+      $output .= '</div>';
+    }
+  }
+  $output .= taxonomy_render_nodes($result);
+  return $output;
+}
+

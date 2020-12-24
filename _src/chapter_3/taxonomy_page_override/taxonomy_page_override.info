@@ -1,0 +1,7 @@
+; $Id$
+name = Taxonomy Page Override
+description = Override our theme_taxonomy_page to add taxonomy images.
+dependencies[] = taxonomy_image
+core = 6.x
+package = Taxonomy Image
+

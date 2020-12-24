@@ -1,0 +1,15 @@
+; $Id$
+name = My Theme
+description = Tableless, recolorable, multi-column, fluid width theme (default).
+version = VERSION
+core = 6.x
+engine = phptemplate
+stylesheets[all][] = style.css
+stylesheets[print][] = print.css
+
+regions[left] = Left sidebar
+regions[right] = Right sidebar
+regions[upper] = Upper
+regions[content] = Content
+regions[header] = Header
+regions[footer] = Footer
